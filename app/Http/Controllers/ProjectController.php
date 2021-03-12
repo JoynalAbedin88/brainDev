@@ -26,6 +26,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
+        session(['area' => 3, 'page' => 8]);
         $project = Project::latest('id')->where('category_id', '!=', 0)->get();
         $category = Category::where('what', 2)->orderBy('name', 'asc')->get();
         $completeProject = Project::latest('id')->where('category_id', 0)->get();
@@ -43,7 +44,7 @@ class ProjectController extends Controller
         $request->validate([
             'image'    => 'required|mimes:jpg,jpeg,png',
         ]);
-        $path  = 'storage/frontend/images/projects/';
+        $path  = 'frontend/images/projects/';
         if($request->project){
             $request->validate([
                 'Project_type'    => 'required',
@@ -96,7 +97,7 @@ class ProjectController extends Controller
             'Project_type' => 'required',
             'image'    => 'mimes:jpg,jpeg,png',
         ]);
-        $path  = 'storage/frontend/images/projects/';
+        $path  = 'frontend/images/projects/';
         if($request->hasFile('image')){
             if(file_exists($project->image)){
                 unlink($project->image);

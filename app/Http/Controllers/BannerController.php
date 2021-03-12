@@ -15,8 +15,9 @@ class BannerController extends Controller
      */
     public function index()
     {
-        $banner = banner::latest('id')->get();
-        return view('backend.banner', compact('banner'));
+        session(['area' => 3, 'page' => 10]);
+        $banner = banner::where('what', 0)->get();
+        return view('backend.banners', compact('banner'));
     }
 
     /**
@@ -26,7 +27,9 @@ class BannerController extends Controller
      */
     public function create()
     {
-        //
+        session(['area' => 4, 'page' => 11]);
+        $banner = banner::latest('id')->where('what', 1)->get();
+        return view('backend.slider', compact('banner'));
     }
 
     /**
@@ -41,10 +44,17 @@ class BannerController extends Controller
             'image' => "required|image|mimes:jpg,jpeg,png",
             'heading' => 'required',
         ]);
-        $path = 'storage/frontend/images/banner/';
+        $path = 'frontend/images/banner/';
+        if($request->slider){
+            $what = 1;
+        }else{
+            $what = 0;
+        }
+
         banner::create([
             'heading' => $request->heading,
             'short' => $request->short,
+            'what' => $what,
             'image' => Media::imgUpload($request->image, $path, '', ''),
         ]);
         return back();
@@ -58,12 +68,12 @@ class BannerController extends Controller
      */
     public function show(banner $banner)
     {
-        if($banner->status == 0){
+        if($banner->home == 0){
             $banner->update(['status' => 1]);
         }else{
             $banner->update(['status' => 0]);
         }
-        return back();
+    return back();
     }
 
     /**
@@ -86,7 +96,24 @@ class BannerController extends Controller
      */
     public function update(Request $request, banner $banner)
     {
-        
+        $request->validate([
+            'image' => "image|mimes:jpg,jpeg,png",
+            'heading' => 'required',
+        ]);
+        $path = 'frontend/images/banner/';
+        if($request->hasFile('image')){
+            if(file_exists($banner->image)){
+                unlink($banner->image);
+            }
+            $banner->update([
+                'image' => Media::imgUpload($request->image, $path, '', ''),
+            ]);
+        }
+        $banner->update([
+            'heading' => $request->heading,
+            'short' => $request->short,
+        ]);
+        return back();
     }
 
     /**
@@ -97,6 +124,10 @@ class BannerController extends Controller
      */
     public function destroy(banner $banner)
     {
-        //
+        if(file_exists($banner->image)){
+            unlink($banner->image);
+        }
+        $banner->delete();
+        return back();
     }
 }

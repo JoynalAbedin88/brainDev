@@ -6,10 +6,10 @@
 @section('content')
     <!-- ======= Hero Section ======= -->
     <section id="hero">
-        <img src="{{ asset('storage/frontend/images/Rectangle_2.png') }}" alt="">
+        <img src="{{ asset($banner->image) }}" alt="">
         <div class="hero-container" data-aos="fade-up">
             <div>
-              <h1 style="font-size: 4em;">Blog</h1>
+              <h1 style="font-size: 4em;">{{ $banner->heading }}</h1>
             </div>
         </div>
       </section>
@@ -30,9 +30,11 @@
                       </div>
                     </div>
                     <div class="content p-3 pt-5">
-                      <a href="{{ route('blog.show', ['slug' => $item->slug, 'id' => encrypt($item->id)]) }}">
+                      <a href="{{ route('front.blog.show', ['slug' => $item->slug, 'id' => encrypt($item->id)]) }}">
                         <h4>{{ $item->title }}</h4>
-                        <p>{!! substr($item->content, 0, 300) !!}</p>
+                        <div>
+                          <p>{!! substr($item->content, 0, 250) !!}</p>
+                        </div>
                       </a>
                     </div>
                   </div>
@@ -42,9 +44,13 @@
                   </div>
                   @endforelse
                 </div>
-                <div id="catagory-bar" class="col-12 col-md-4">
+
+                {{-- ========================================== --}}
+                {{-- ========================================== --}}
+
+                <div id="catagory-bar" class="col-12 col-md-4 "> 
                     <div class="blog-search">
-                      <form action="{{ route('blog.index') }}" method="get">
+                      <form action="{{ route('front.blog') }}" method="get">
                         <div class="search-box">
                           <input type="text" name="search" class="form-control" placeholder="Serach Here">
                           <button type="submit"><i class="fas fa-search"></i></button>
@@ -57,14 +63,14 @@
                         <h3>Catagories</h3>
                       </div>
                       @foreach ($category as $item)
-                        <a href="{{ route('blog.index.category', encrypt($item->id)) }}"> {{ $item->name }}</a>
+                        <a href="{{ route('front.blog.category', encrypt($item->id)) }}"> {{ $item->name }}</a>
                       @endforeach
                     </div>
 
                     <div class="feature-post">
                       @foreach ($query->limit(3)->get() as $item)
                       <div class="item">
-                        <a href="#">
+                        <a href="{{ route('front.blog.show', ['slug' => $item->slug, 'id' => encrypt($item->id)]) }}">
                           <div class="img float-left">
                             <img src="{{ asset($item->image) }}" alt="">
                           </div>

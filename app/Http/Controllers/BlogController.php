@@ -15,28 +15,10 @@ class BlogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id = '')
-    {
-        $searchKey = $_GET['search'] ?? Null;
-        $query = Blog::latest('id');
-
-        if($id != Null){
-            $blog = $query->where('category_id', decrypt($id))->get();
-        }elseif($searchKey){
-            $blog = $query->where('title', 'like', "%{$searchKey}%")->get();
-        }
-        else{
-            $blog = $query->get();
-        }
-
-        $category = Category::orderBy('name', 'asc')->where('what', 1)->get();
-        return view('frontend.blog', compact('blog', 'category', 'query'));
-    }
-
-    // Method for  back end 
-    public function allPost()
+    public function index()
     {
         $blog = Blog::latest('id')->get();
+        session(['area' => 2, 'page' => 1]);
         return view('backend.blog.index', compact('blog')); 
     }
     
@@ -47,6 +29,7 @@ class BlogController extends Controller
      */
     public function create()
     {
+        session(['area' => 2, 'page' => 2]);
         $category = Category::orderBy('name', 'asc')->where('what', 1)->get();
         return view('backend.blog.create', compact('category'));
     }
@@ -62,7 +45,7 @@ class BlogController extends Controller
         // dd($request->all());
         $this->formValid($request);
         $request->validate(['file' => 'required']);
-        $path = 'storage/frontend/images/blogs/';
+        $path = 'frontend/images/blogs/';
         Blog::create([
             'title'         => $request->title, 
             'slug'          => $request->slug,
@@ -81,20 +64,9 @@ class BlogController extends Controller
      * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function show($slug, $id)
+    public function show()
     {
-        $save = null;
-        if(Auth::user()){
-            if(Auth::user()->comment->last()){
-                $save = Auth::user()->comment->last();
-            }
-        }
-
-        $blog = Blog::where('slug', $slug)->where('id', decrypt($id))->first();
-        $category = Category::orderBy('name', 'asc')->where('what', 1)->get();
-        $recent = Blog::latest('id');
-
-        return view('frontend.singleBlog', compact('blog', 'category', 'recent', 'save'));
+        
     }
 
     /**
@@ -119,7 +91,7 @@ class BlogController extends Controller
     public function update(Request $request, Blog $blog)
     {
         $this->formValid($request);
-        $path = 'storage/frontend/images/blogs/';
+        $path = 'frontend/images/blogs/';
         $image = $blog->image;
         if($request->hasFile('file')){
            if(file_exists($blog->image)){
@@ -153,6 +125,7 @@ class BlogController extends Controller
     // This Method For  Trust Page  show
     public function trush()
     {
+        session(['area' => 2, 'page' => 3]);
         $blog = Blog::onlyTrashed()->latest('id')->get();
         return view('backend.blog.trush', compact('blog'));
     }

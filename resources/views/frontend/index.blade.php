@@ -84,7 +84,7 @@
   
   
       <!-- ======= Cta Section ======= -->
-      <section id="cta" class="cta" style="background: linear-gradient(rgba(2, 2, 2, 0.7), rgba(0, 0, 0, 0.9)), url({{ asset('storage/frontend/images/leptop.jpeg') }}) fixed center center;">
+      <section id="cta" class="cta" style="background: linear-gradient(rgba(2, 2, 2, 0.7), rgba(0, 0, 0, 0.9)), url({{ asset('frontend/images/leptop.jpeg') }}) fixed center center;">
         <div class="container" data-aos="zoom-in">
   
   
@@ -199,27 +199,12 @@
             <div class="col-md-4 col-12 stap line-no" data-aos="zoom-in">
               <span>3</span>
             </div>
+            @foreach ($process as $item)
             <div class="col-md-4 col-12 mt-5" data-aos="fade-up">
-              <h4>Select A Project</h4>
-              <p>We havwe the technology and industry 
-                expertise to develop solutions that can
-                connect people and businesses across 
-                variety of mobile devices</p>
+              <h4>{{ $item->heading }}</h4>
+              <p>{{ $item->content }}</p>
             </div>
-            <div class="col-md-4 col-12 mt-5" data-aos="fade-up">
-              <h4>Project Analysis </h4>
-              <p>We havwe the technology and industry 
-                expertise to develop solutions that can
-                connect people and businesses across 
-                variety of mobile devices</p>
-            </div>
-            <div class="col-md-4 col-12 mt-5" data-aos="fade-up">
-              <h4>Deliver Result</h4>
-              <p>We havwe the technology and industry 
-                expertise to develop solutions that can
-                connect people and businesses across 
-                variety of mobile devices</p>
-            </div>
+            @endforeach
             
           </div>
   
@@ -228,27 +213,11 @@
       <!-- End Services Section -->
       <section id="sponsor" class="pb-1">
         <div class="sponsor owl-carousel">
+          @foreach ($sponsor as $item)
           <div>
-            <img width="100%" src="{{ asset('storage/frontend/images/0526_Logo_06.png') }}" alt="">
+            <img width="100%" src="{{ asset($item->image) }}" alt="">
           </div>
-          <div>
-            <img width="100%" src="{{ asset('storage/frontend/images/Adidas.png') }}" alt="">
-          </div>
-          <div>
-            <img width="100%" src="{{ asset('storage/frontend/images/bigbrands.webp') }}" alt="">
-          </div>
-          <div>
-            <img width="100%" src="{{ asset('storage/frontend/images/images.png') }}" alt="">
-          </div>
-          <div>
-            <img width="100%" src="{{ asset('storage/frontend/images/logo.png') }}" alt="">
-          </div>
-          <div>
-            <img width="100%" src="{{ asset('storage/frontend/images/MAIN.png') }}" alt="">
-          </div>
-          <div>
-            <img width="100%" src="{{ asset('storage/frontend/images/0526_Logo_06.png') }}" alt="">
-          </div>
+          @endforeach
         </div>
       </section>
   
@@ -269,9 +238,9 @@
             </div>
             @endif
             <div class="col-sm-6 col-12 right-news">
-              @foreach ($blog->limit(3)->get() as $item)
+              @foreach ($blog->limit(3)->get() as $k => $item)
               @if ($blog->first()->id !=  $item->id)
-              <div class="content mb-3" data-aos="fade-down">
+              <div class="content {{ $k == 1 ? 'mb-3' : '' }}" data-aos="fade-down">
                 <div class="img" style="background: url({{ asset($item->image) }});"></div>
                 <div class="text">
                   <h6 class="my-3"><strong>{{ $item->title }}</strong></h6> 

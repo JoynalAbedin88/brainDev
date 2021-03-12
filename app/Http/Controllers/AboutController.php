@@ -27,6 +27,7 @@ class AboutController extends Controller
      */
     public function create()
     {
+        session(['area' => 3, 'page' => 5]);
         $about = About::all()->first();
         if($about){
             return redirect(route('about.edit', $about->id));
@@ -45,16 +46,16 @@ class AboutController extends Controller
     {
         $this->formValid($request);
         $request->validate([
-            'banner' => 'required',
+            'banner'    => 'required',
             'first_img' => 'required',
-            'second_img' => 'required',
+            'second_img'=> 'required',
         ]);
-        $path = 'storage/frontend/images/about/';
+        $path = 'frontend/images/about/';
         About::create([
-            'banner' => Media::imgUpload($request->banner, $path, 1350, 380 ),
+            'banner'    => Media::imgUpload($request->banner, $path, 1350, 380 ),
             'upper_img' => Media::imgUpload($request->first_img, $path, 324, 405 ),
             'lower_img' => Media::imgUpload($request->second_img, $path, 324, 405 ),
-            'heading' => $request->heading,
+            'heading'   => $request->heading,
             'upper_pra' => $request->upper_pra,
             'lower_pra' => $request->lower_pra,
         ]);
@@ -81,6 +82,7 @@ class AboutController extends Controller
      */
     public function edit(About $about)
     {
+        session(['area' => 3, 'page' => 5]);
         return view('backend.creteAbout', compact('about'));
     }
 
@@ -94,7 +96,7 @@ class AboutController extends Controller
     public function update(Request $request, About $about)
     {
         $this->formValid($request);
-        $path = 'storage/frontend/images/about/';
+        $path = 'frontend/images/about/';
         if($request->hasFile('banner')){
             if(file_exists($about->banner)){
                 unlink($about->banner);
@@ -120,7 +122,7 @@ class AboutController extends Controller
             ]);
         }
         $about->update([
-            'heading' => $request->heading,
+            'heading'   => $request->heading,
             'upper_pra' => $request->upper_pra,
             'lower_pra' => $request->lower_pra,
         ]);
@@ -141,12 +143,12 @@ class AboutController extends Controller
     private function formValid($request)
     {
         return $request->validate([
-            'banner' => 'image|mimes:jpg,jpeg,png,svg',
-            'heading' => 'required',
-            'upper_pra' => 'required',
-            'lower_pra' => 'required',
-            'first_img' => 'image|mimes:jpg,jpeg,png,svg',
-            'second_img' => 'image|mimes:jpg,jpeg,png,svg',
+            'banner'        => 'image|mimes:jpg,jpeg,png,svg',
+            'heading'       => 'required',
+            'upper_pra'     => 'required',
+            'lower_pra'     => 'required',
+            'first_img'     => 'image|mimes:jpg,jpeg,png,svg',
+            'second_img'    => 'image|mimes:jpg,jpeg,png,svg',
         ]);
      }
 }

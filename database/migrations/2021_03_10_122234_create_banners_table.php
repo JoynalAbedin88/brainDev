@@ -19,6 +19,7 @@ class CreateBannersTable extends Migration
             $table->string('heading');
             $table->string('short')->nullable();
             $table->string('status')->default(0);
+            $table->string('What')->default(0);
             $table->timestamps();
         });
     }

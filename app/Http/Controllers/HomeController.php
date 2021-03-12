@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\banner;
 use App\Models\Home;
 use App\Models\Media;
+use App\Models\Sponsor;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -25,10 +27,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('backend.index');
+        session(['area' => 1, 'page' => null ]);
+        $sponsor = Sponsor::latest('id')->get();
+        return view('backend.index', compact('sponsor'));
     }
     public function create()
     {
+        session(['area' => 4, 'page' => 12 ]);
         $section_1 = Home::where('section', 1)->first();
         $section_2 = Home::where('section', 2)->first();
         $section_3 = Home::where('section', 3)->first();
@@ -72,7 +77,7 @@ class HomeController extends Controller
             "first_img" => 'image|mimes:jpg,jpeg,png',
             "second_img" => 'image|mimes:jpg,jpeg,png',
         ]);
-        $path = 'storage/frontend/images/about/';
+        $path = 'frontend/images/about/';
         if($request->hasFile('first_img')){
             if(file_exists($home->img_1)){
                 unlink($home->img_1);
@@ -100,7 +105,7 @@ class HomeController extends Controller
         return back();
     }
     private function img1($request){
-        $path = 'storage/frontend/images/about/';
+        $path = 'frontend/images/about/';
         if($request->section == 2 || $request->section == 3){
             $img1 = Media::imgUpload($request->first_img, $path, 478, 352);
         }else{
@@ -109,7 +114,7 @@ class HomeController extends Controller
         return $img1;
     }
     private function img2($request){
-        $path = 'storage/frontend/images/about/';
+        $path = 'frontend/images/about/';
         if($request->section == 2){
             $img2 = Media::imgUpload($request->second_img, $path, 478, 352);
         }else{

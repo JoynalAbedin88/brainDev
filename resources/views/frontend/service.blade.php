@@ -7,10 +7,10 @@
 @section('content')
     <!-- ======= Hero Section ======= -->
     <section id="hero">
-        <img src="{{ asset('storage/frontend/images/Rectangle2.png') }}" alt="">
+        <img src="{{ asset($banner->image) }}" alt="">
         <div class="hero-container" data-aos="fade-up">
             <div>
-              <h1 style="font-size: 4em;">Services Details</h1>
+              <h1 style="font-size: 4em;">{{ $banner->heading }}</h1>
             </div>
         </div>
       </section>

@@ -7,10 +7,10 @@
 @section('content')
     <!-- ======= Hero Section ======= -->
     <section id="hero">
-        <img src="{{ asset('storage/frontend/images/Rectangle_2.png') }}" alt="">
+        <img src="{{ asset($banner->image) }}" alt="">
         <div class="hero-container" data-aos="fade-up">
             <div>
-              <h1 style="font-size: 4em;">Blog</h1>
+              <h1 style="font-size: 4em;">{{ $banner->heading }}</h1>
             </div>
         </div>
       </section>
@@ -55,7 +55,7 @@
                             <h4>Recent post</h4>
                             <div class="recent-post-slide owl-carousel m-auto" style="width: 80%;">
                                 @foreach ($recent->limit(6)->get() as $item)
-                                <a class="text-dark" href="{{ route('blog.show', ['slug' => $item->slug, 'id' => encrypt($item->id)]) }}">
+                                <a class="text-dark" href="{{ route('front.blog.show', ['slug' => $item->slug, 'id' => encrypt($item->id)]) }}">
                                     <div class="item text-center pb-2">
                                         <img src="{{ asset($item->image) }}" alt="">
                                         <div class="pt-4">
@@ -72,7 +72,7 @@
                             @foreach ($blog->comment as $item)
                             <div class="comment-item">
                                 <div class="user-img">
-                                    <img src="{{ $item->user->image ? asset($item->user->image) : asset('storage/frontend/images/users/user.jpg') }}" alt="">
+                                    <img src="{{ $item->user->image ? asset($item->user->image) : asset('frontend/images/users/user.jpg') }}" alt="">
                                 </div>
                                 <div class="comment-content pb-3">
                                     <h5>{{ $item->name }}</h5>
@@ -91,7 +91,7 @@
                                     @foreach ($item->reply as $reply)
                                     <div class="reply-item mt-3">
                                         <div class="user-img">
-                                            <img src="{{ $reply->user->image ? asset($reply->user->image) : asset('storage/frontend/images/users/user.jpg') }}" alt="">
+                                            <img src="{{ $reply->user->image ? asset($reply->user->image) : asset('frontend/images/users/user.jpg') }}" alt="">
                                         </div>
                                         <div class="comment-content pb-3">
                                             <h5>{{ $reply->name }}</h5>
@@ -110,7 +110,7 @@
                                     <div class="reply-item mt-3">
                                         <div class="comment-item">
                                             <div class="user-img">
-                                                <img src="{{ Auth::user()->image != Null ? asset(Auth::user()->image) : asset('storage/frontend/images/users/user.jpg') }}" alt="">
+                                                <img src="{{ Auth::user()->image != Null ? asset(Auth::user()->image) : asset('frontend/images/users/user.jpg') }}" alt="">
                                             </div>
                                             <div class="comment-content pb-3">
                                                 <form action="{{ route('reply.store') }}" method="POST"> @csrf
@@ -161,7 +161,7 @@
                             @auth
                             <div class="comment-item">
                                 <div class="user-img">
-                                    <img src="{{ Auth::user()->image != Null ? asset(Auth::user()->image) : asset('storage/frontend/images/users/user.jpg') }}" alt="">
+                                    <img src="{{ Auth::user()->image != Null ? asset(Auth::user()->image) : asset('frontend/images/users/user.jpg') }}" alt="">
                                 </div>
                                 <div class="comment-content pb-3">
                                     <form action="{{ route('comment.store') }}" method="POST"> @csrf
@@ -220,14 +220,14 @@
                         <h3>Catagories</h3>
                       </div>
                       @foreach ($category as $item)
-                      <a href="{{ route('blog.index.category', encrypt($item->id)) }}"> {{ $item->name }}</a>
+                      <a href="{{ route('front.blog.category', encrypt($item->id)) }}"> {{ $item->name }}</a>
                       @endforeach
                     </div>
 
                     <div class="feature-post">
                         @foreach ($recent->limit(6)->get() as $item)
                         <div class="item">
-                            <a href="{{ route('blog.show', ['slug' => $item->slug, 'id' => encrypt($item->id)]) }}">
+                            <a href="{{ route('front.blog.show', ['slug' => $item->slug, 'id' => encrypt($item->id)]) }}">
                               <div class="img float-left">
                                 <img src="{{ asset($item->image) }}" alt="">
                               </div>

@@ -15,6 +15,7 @@ class TeamController extends Controller
      */
     public function index()
     {
+        session(['area' => 3, 'page' => 6]);
         $team = Team::where('status', 1)->get();
         $leader = Team::where('status', 2)->get();
         $all = Team::all();
@@ -45,7 +46,7 @@ class TeamController extends Controller
             "leader" => "nullable",
             "image" => 'required|image|mimes:jpg,jprg,png,svg',
         ]);
-        $path = 'storage/frontend/images/team/';
+        $path = 'frontend/images/team/';
         Team::create([
             'name' => $request->name,
             'image' => Media::imgUpload($request->image, $path, 300, 300),
@@ -92,7 +93,7 @@ class TeamController extends Controller
             "leader" => "nullable",
             "image" => 'nullable|image|mimes:jpg,jprg,png,svg',
         ]);
-        $path = 'storage/frontend/images/team/';
+        $path = 'frontend/images/team/';
         if($request->hasFile('image')){
             if(file_exists($team->image)){
                 unlink($team->image);

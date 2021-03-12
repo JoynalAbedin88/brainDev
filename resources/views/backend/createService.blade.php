@@ -51,7 +51,7 @@
                 </button>
                 </div>
         
-                <form action="{{ route('category.update', $item->id) }}" method="post">
+                <form action="{{ route('category.update', $item->id) }}" method="post" enctype="multipart/form-data">
                     @csrf @method('put')
         
                     <div class="modal-body">

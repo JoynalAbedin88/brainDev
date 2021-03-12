@@ -16,6 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        session(['area' => 2, 'page' => 4]);
         $category = Category::orderBy('name', 'asc')->where('what', 1)->get();
         return view('backend.blog.category', compact('category'));
     }
@@ -48,7 +49,7 @@ class CategoryController extends Controller
         }else{
             $what = 1;
         }
-        $path = 'storage/frontend/images/icons/';
+        $path = 'frontend/images/icons/';
         if($request->hasFile('icon')){
             $icon = Media::imgUpload($request->icon, $path, 60, 60);
         }else{
@@ -95,11 +96,10 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        
         $request->validate([
             'name' => 'required|string',
         ]);
-        $path = 'storage/frontend/images/icons/';
+        $path = 'frontend/images/icons/';
         if($request->hasFile('icon')){
             if(file_exists($category->icon)){
                 unlink($category->icon);

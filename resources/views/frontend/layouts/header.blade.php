@@ -18,27 +18,29 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="{{ asset('storage/frontend/css/bootstrap.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('storage/frontend/css/icofont.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('frontend/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('frontend/css/icofont.min.css') }}" rel="stylesheet">
   {{-- <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet"> --}}
-  <link href="{{ asset('storage/frontend/css/venobox.css') }}" rel="stylesheet">
-  <link href="{{ asset('storage/frontend/css/owl.carousel.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('storage/frontend/css/aos.css') }}" rel="stylesheet">
+  <link href="{{ asset('frontend/css/venobox.css') }}" rel="stylesheet">
+  <link href="{{ asset('frontend/css/owl.carousel.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('frontend/css/aos.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
 
   <!-- Template Main CSS File -->
-  <link href="{{ asset('storage/frontend/css/style.css') }}" rel="stylesheet">
+  <link href="{{ asset('frontend/css/style.css') }}" rel="stylesheet">
 
 </head>
 
 <body>
-
+@php
+    $contact = App\Models\ContactInfo::all()->first();
+@endphp
   <!-- ======= Top Bar ======= -->
   <section id="topbar" class="d-none d-lg-block">
     <div class="container d-flex">
       <div class="contact-info mr-auto">
-        <i class="icofont-phone"></i> +1 5589 55488 55
-        <i class="icofont-envelope"></i><a href="mailto:contact@example.com">contact@example.com</a>
+        <i class="icofont-phone"></i> +{{ $contact->phone_1 }}
+        <i class="icofont-envelope"></i><a href="mailto:contact@example.com">{{ $contact->email_1 }}</a>
       </div>
       <div class="social-links">
         <a href="#" class="twitter"><i class="icofont-twitter"></i></a>
@@ -55,9 +57,9 @@
     <div class="container d-flex">
 
       <div class="logo mr-auto">
-        <!-- <h1 class="text-light"><a href="index.html">Brain <span class="text-danger">Share</span></a></h1> -->
+        <!-- <h1 class="text-light"><a href="{{ route('front.index') }}">Brain <span class="text-danger">Share</span></a></h1> -->
         <!-- Uncomment below if you prefer to use an image logo -->
-        <a href="index.html"><img src="{{ asset('storage/frontend/images/logoM.png') }}" alt="" class="img-fluid"></a>
+        <a href="{{ route('front.index') }}"><img src="{{ asset('frontend/images/logoM.png') }}" alt="" class="img-fluid"></a>
       </div>
 
       <nav class="nav-menu d-none d-lg-block">
@@ -83,7 +85,7 @@
 
           </li>
           <li><a href="{{ route('front.project') }}">Project</a></li>
-          <li><a href="{{ route('blog.index') }}">Blog</a></li>
+          <li><a href="{{ route('front.blog') }}">Blog</a></li>
           <li><a href="{{ route('front.contact') }}">Contact</a></li>
 
         </ul>

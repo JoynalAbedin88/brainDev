@@ -16,6 +16,7 @@ class ServiceContentController extends Controller
      */
     public function index()
     {
+        session(['area' => 3, 'page' => 7]);
         $category = Category::where('what', 2)->orderby('name', 'asc')->get();
         return view('backend.serviceContent', compact('category'));
     }
@@ -46,7 +47,7 @@ class ServiceContentController extends Controller
             "discussion_img_1" => 'required|image|mimes:jpg,jpeg,png',
             "discussion_img_2" =>'required|image|mimes:jpg,jpeg,png',
         ]);
-        $path = 'storage/frontend/images/service/';
+        $path = 'frontend/images/service/';
         ServiceContent::create([
             'banner' => null,
             'discussion_img_1' => Media::imgUpload($request->discussion_img_1, $path, 324, 405),
@@ -100,7 +101,7 @@ class ServiceContentController extends Controller
             "discussion_img_2" =>'image|mimes:jpg,jpeg,png',
         ]);
 
-        $path = 'storage/frontend/images/service/';
+        $path = 'frontend/images/service/';
         if($request->hasFile('serviceImg')){
             if(file_exists($serviceContent->service_img)){
                 unlink($serviceContent->service_img);

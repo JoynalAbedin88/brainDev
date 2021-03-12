@@ -41,7 +41,7 @@ class ChooseUsController extends Controller
             'icon'  => 'required|image|mimes:jpg,jpeg,png',
             'content' => 'required'
         ]);
-        $path = 'storage/frontend/images/icons/';
+        $path = 'frontend/images/icons/';
         ChooseUs::create([
             'title' => $request->title,
             'icon'  => Media::imgUpload($request->icon, $path, 100,100),
@@ -87,7 +87,7 @@ class ChooseUsController extends Controller
             'content' => 'required'
         ]);
         $chooseUs = ChooseUs::find($id);
-        $path = 'storage/frontend/images/icons/';
+        $path = 'frontend/images/icons/';
             if($request->hasFile('icon')){
                 if(file_exists($chooseUs->icon)){
                     unlink($chooseUs->icon);

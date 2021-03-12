@@ -27,6 +27,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
+        session(['area' => 3, 'page' => 7]);
         $choose = ChooseUs::all();
         $category = Category::where('what', 2)->orderBy('name', 'asc')->get();
         return view('backend.createService', compact('category', 'choose'));
@@ -52,7 +53,7 @@ class ServiceController extends Controller
         }else{
             $value = 0;
         }
-        $path = 'storage/frontend/images/icons/';
+        $path = 'frontend/images/icons/';
         Service::create([
             'name' => $request->name,
             'price' => $request->price,
@@ -108,7 +109,7 @@ class ServiceController extends Controller
         }else{
             $value = 0;
         }
-        $path = 'storage/frontend/images/icons/';
+        $path = 'frontend/images/icons/';
         if($request->hasFile('icon')){
             if(file_exists($service->icon)){
                 unlink($service->icon);
